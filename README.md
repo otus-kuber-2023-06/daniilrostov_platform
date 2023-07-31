@@ -11,3 +11,7 @@
 # Выполнено ДЗ №4
 
 Добавлена папка "kubernetes-volumes"
+
+# Выполнено ДЗ №5
+
+Добавлена папка "kubernetes-security"
