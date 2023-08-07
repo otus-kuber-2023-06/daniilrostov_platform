@@ -17,9 +17,13 @@
 ```helm list``` Посмотреть.
 ```helm show values ingress-nginx/ingress-nginx``` Посмотреть переменные
 
-Установка серт менеджера
+Установка cert-manager
 
 ```helm repo add jetstack https://charts.jetstack.io``` Репа инсталл
 ```helm repo update```
 ```kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.crds.yaml``` CDR
 ```helm install cert-manager jetstack/cert-manager --wait --namespace=cert-manager --create-namespace --version v1.12.0```
+
+Установка chartmuseum
+
+```kubectl create ns chartmuseum```
