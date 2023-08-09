@@ -1,5 +1,5 @@
-## Домашнее задание 6
-№6: Шаблонизация манифестов Kubernetes
+## Домашнее задание №6
+Шаблонизация манифестов Kubernetes
 
 ### Подготовка окружения в яндекс облаке
 
@@ -11,10 +11,10 @@
 
 ### Установка ingress controller
 
-```kubectl create ns nginx-ingress``` 
-```helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx``` Репа инсталл
-```helm install nginx-ingress ingress-nginx/ingress-nginx --wait -n nginx-ingress```
-```helm list``` Посмотреть.
+```kubectl create ns nginx-ingress```  
+```helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx``` Репа инсталл  
+```helm install nginx-ingress ingress-nginx/ingress-nginx --wait -n nginx-ingress```  
+```helm list``` Посмотреть. 
 ```helm show values ingress-nginx/ingress-nginx``` Посмотреть переменные
 
 ### Установка cert-manager
