@@ -48,10 +48,11 @@ Helm rollbak
 ```helm.exe rollback demo-app "id from history"```  
 Helm deploy to dev  
 ```helm.exe upgrade --install demo-app ./demo-chart -f ./demo-chart/values_dev.yaml -n app --create-namespace --dry-run```  
-Enable all routes prefixed with /api in vars file  
+
+Enable all routes prefixed with /api in chartmuseum/values.yaml    
 ```DISABLE_API: false```  
 ```helm.exe upgrade --install chartmuseum -f chartmuseum/values.yaml```  
-Add port-forward 8080 for chartmuseum  
+ 
 Create helm package and push  
 ```helm package .\demo-chart```  
 ```curl.exe --data-binary "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts```  
