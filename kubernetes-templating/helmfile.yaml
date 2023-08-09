@@ -1,0 +1,28 @@
+releases:
+  - name: ingress
+    labels: 
+      app: nginx-ingress
+    wait: true
+    chart: ingress-nginx/ingress-nginx
+
+  - name: cerm-manager
+    labels: 
+      app: cerm-manager
+    wait: true
+    chart: jetstack/cert-manager
+
+  - name: chartmuseum
+    labels:
+      app: chartmuseum
+    wait: true
+    chart: chrtmuseum/chartmuseum
+    values:
+      - chartmuseum\values.yaml
+
+  - name: harbor
+    labels:
+      app: harbor
+    wait: true
+    chart: harbor/harbor
+    values:
+      - harbor\values.yaml
