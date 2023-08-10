@@ -7,7 +7,7 @@
 2. ```yc iam service-account list``` Посмотреть id сервисного аккаунта и определить в переменную $SA. Если нет, то создать новый с ролью editor в k8s и pull registry
 2. ```yc k8s cluster create --name dz6 --service-account-id $SA --network-name default --node-service-account-id $SA --public-ip```
 3. ```yc managed-kubernetes cluster get-credentials --name dz6 --external``` Для настройки kubectl, прописываются автоматом в дефолтовый путь.
-4. ```yc k8s node-group create --folder-id $FOLDER --name dz6-group --cluster-name dz6 --platform standard-v3 --memory 2 --cores 2 --disk-type network-hdd --disk-size 64 --container-runtime containerd --fixed-size 1 --network-interface subnets=default-ru-central1-a,ipv4-address=nat --version 1.24```
+4. ```yc k8s node-group create --folder-id $FOLDER --name dz6-group --cluster-name dz6 --platform standard-v3 --memory 6 --cores 2 --disk-type network-hdd --disk-size 64 --container-runtime containerd --fixed-size 1 --network-interface subnets=default-ru-central1-a,ipv4-address=nat --version 1.24```
 
 ### Установка "ingress controller"
 
@@ -29,6 +29,7 @@
 ### Установка chartmuseum
 
 ```kubectl create ns chartmuseum```  
+```helm add repo https://chartmuseum.github.io/charts```
 ```helm upgrade --install chartmuseum chrtmuseum/chartmuseum --wait --namespace=chartmuseum -f chartmuseum/values.yaml```  
 ```helm.exe ls -n chartmuseum``` Проверить как запустился.  
 ```helm show values stable/chartmuseum``` Посмотреть переменные  
@@ -68,4 +69,11 @@ After add user and pssword to values.yaml
 ```helm repo add harbor https://helm.goharbor.io```  
 ```helm repo update harbor```  
 ```helm install  my-harbor harbor/harbor -f harbor/values.yaml```
+
+Все чарты можно запустить автоматом через helmfile.yaml  
+```helmfile -n <namespace> apply```
+
+### Создаём свой "helm chart"
+```kubectl create ns hipster-shop```
+```helm upgrade --install hipster-shop kubernetes-templating/hipster-shop --namespace hipster-shop```
 
