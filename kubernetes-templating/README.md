@@ -11,9 +11,8 @@
 
 ### Установка "ingress controller"
 
-```kubectl create ns nginx-ingress```  
 ```helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx``` Репа инсталл  
-```helm install nginx-ingress ingress-nginx/ingress-nginx --wait -n nginx-ingress```  
+```helm install nginx-ingress ingress-nginx/ingress-nginx --wait -n nginx-ingress --create-namespace```  
 ```helm list``` Посмотреть.  
 ```helm show values ingress-nginx/ingress-nginx``` Посмотреть переменные
 
@@ -28,9 +27,8 @@
 
 ### Установка chartmuseum
 
-```kubectl create ns chartmuseum```  
 ```helm add repo https://chartmuseum.github.io/charts```
-```helm upgrade --install chartmuseum chrtmuseum/chartmuseum --wait --namespace=chartmuseum -f chartmuseum/values.yaml```  
+```helm upgrade --install chartmuseum chrtmuseum/chartmuseum --wait --namespace=chartmuseum --create-namespace -f chartmuseum/values.yaml```  
 ```helm.exe ls -n chartmuseum``` Проверить как запустился.  
 ```helm show values stable/chartmuseum``` Посмотреть переменные  
 ```curl chartmuseum.158.160.40.175.nip.io```
@@ -66,14 +64,16 @@ After add user and pssword to values.yaml
 ```curl.exe --user admin:password -X DELETE "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts/demo-chart/0.2.0```
 
 ### Установка Harbor
-```helm repo add harbor https://helm.goharbor.io```  
-```helm repo update harbor```  
-```helm install  my-harbor harbor/harbor -f harbor/values.yaml```
+```helm repo add harbor https://helm.goharbor.io```    
+```helm repo update```   
+Изменить externalURL и подобное в harbor/values.yaml   
+
+```helm install  my-harbor harbor/harbor --namespace=harbor --create-namespace -f harbor/values.yaml```
 
 Все чарты можно запустить автоматом через helmfile.yaml  
+```helm plugin install https://github.com/databus23/helm-diff```
 ```helmfile -n <namespace> apply```
 
 ### Создаём свой "helm chart"
-```kubectl create ns hipster-shop```
-```helm upgrade --install hipster-shop kubernetes-templating/hipster-shop --namespace hipster-shop```
+```helm install hipster-shop hipster-shop --namespace=hipster-shop --create-namespace```
 

@@ -8,8 +8,7 @@ repositories:
   - name: harbor
     url: https://helm.goharbor.io
 
-helmDefaults:
-  kubeContext: yc-dz6 
+helmBinary: /usr/bin/helm
 
 releases:
   - name: ingress
@@ -20,30 +19,20 @@ releases:
     wait: true
     chart: ingress-nginx/ingress-nginx
 
-  # - name: cerm-manager
-  #   namespace: cerm-manager
-  #   createNamespace: true
-  #   labels: 
-  #     app: cerm-manager
-  #   wait: true
-  #   chart: jetstack/cert-manager
+  - name: cerm-manager
+    namespace: cerm-manager
+    createNamespace: true
+    labels: 
+      app: cerm-manager
+    wait: true
+    chart: jetstack/cert-manager
 
-  # - name: chartmuseum
-  #   namespace: chartmuseum
-  #   createNamespace: true
-  #   labels:
-  #     app: chartmuseum
-  #   wait: true
-  #   chart: chrtmuseum/chartmuseum
-  #   values:
-  #     - chartmuseum\values.yaml
-
-  # - name: harbor
-  #   namespace: harbor 
-  #   createNamespace: true
-  #   labels:
-  #     app: harbor
-  #   wait: true
-  #   chart: harbor/harbor
-  #   values:
-  #     - harbor\values.yaml
+  - name: harbor
+    namespace: harbor 
+    createNamespace: true
+    labels:
+      app: harbor
+    wait: true
+    chart: harbor/harbor
+    values:
+      - harbor\values.yaml

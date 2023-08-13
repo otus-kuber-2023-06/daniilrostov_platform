@@ -1,0 +1,7 @@
+image:
+  tag: alpine
+
+replicas: 1
+service:
+  port: 6379
+  targetPort: 6379
