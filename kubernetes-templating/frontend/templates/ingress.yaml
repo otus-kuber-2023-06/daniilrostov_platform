@@ -8,6 +8,10 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     cert-manager.io/acme-challenge-type: http01
 spec:
+  tls:
+    - hosts: 
+        - shop.158.160.35.203.nip.io
+      secretName: "front-tls"
   rules:
     - host: shop.158.160.35.203.nip.io
       http:

@@ -55,7 +55,7 @@ Enable all routes prefixed with /api in chartmuseum/values.yaml
 Create helm package and push  
 ```helm package .\demo-chart```  
 ```curl.exe --data-binary "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts```  
-Add  own repo  
+Add own repo  
 ```helm repo add my-chart http://chartmuseum.158.160.40.175.nip.io```  
 ```helm.exe repo update my-chart```  
 After add user and pssword to values.yaml  
@@ -77,3 +77,20 @@ After add user and pssword to values.yaml
 ### Создаём свой "helm chart"
 ```helm install hipster-shop hipster-shop --namespace=hipster-shop --create-namespace```
 
+Отдельно выносим "frontend" и "redis"  
+Определяем это в "hipster-shop/Chart.yaml"  
+И делаем: ```helm dep update hipster-shop```
+
+### Работа с helm-secrets
+```pgp -k```  
+
+Зашифровать файл. $ID взять из вывода команды выще. Если ключа нет то создать  
+```sops -e -i --pgp $ID frontend/secrets.yaml```
+
+Расшифровать  
+```helm secrets dec frontend/secrets.yaml```
+
+Создать файл frontend/template/secret.yaml   
+
+Загрузка  
+```helm secrets upgrade --install frontend frontend --namespace hipster-shop -f frontend/values.yaml -f frontend/secrets.yaml```
