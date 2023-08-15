@@ -82,23 +82,19 @@ After add user and pssword to values.yaml
 И делаем: ```helm dep update hipster-shop```
 
 ### Работа с helm-secrets
-```pgp -k```  
-
+```pgp -k```
 Зашифровать файл. $ID взять из вывода команды выше. Если ключа нет, то создать: ```gpg --full-generate-key```   
 ```sops -e -i --pgp $ID frontend/secrets.yaml```
-
 Расшифровать  
 ```helm secrets dec frontend/secrets.yaml```  
 Если не работает то:  
 ```GPG_TTY=$(tty)```  
-```export GPG_TTY```  
-
-Создать файл frontend/template/secret.yaml   
-
+```export GPG_TTY```
+Создать файл frontend/template/secret.yaml
 Загрузка  
 ```helm secrets upgrade --install frontend frontend --namespace hipster-shop -f frontend/values.yaml -f frontend/secrets.yaml```
 
 ### Kubecfg
 
-```kubecfg show services.jsonnet``` в папке kubecfg
-```kubecfg update services.jsonnet --namespace hipster-shop```
+```kubecfg show services.jsonnet``` в папке kubecfg  
+```kubecfg update services.jsonnet --namespace hipster-shop```  
