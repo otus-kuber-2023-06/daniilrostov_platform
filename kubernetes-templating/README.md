@@ -29,39 +29,39 @@
 
 ```helm add repo https://chartmuseum.github.io/charts```
 ```helm upgrade --install chartmuseum chrtmuseum/chartmuseum --wait --namespace=chartmuseum --create-namespace -f chartmuseum/values.yaml```  
-```helm.exe ls -n chartmuseum``` Проверить как запустился.  
+```helm ls -n chartmuseum``` Проверить как запустился.  
 ```helm show values stable/chartmuseum``` Посмотреть переменные  
 ```curl chartmuseum.158.160.40.175.nip.io```
 
 ### Мануал по работе с Helm и chartmuseum
 
 Helm create  
-```helm.exe create demo-chart```  
+```helm create demo-chart```  
 Helm start  
-```helm.exe install demo-app ./demo-chart```  
+```helm install demo-app ./demo-chart```  
 Helm upgrade  
-```helm.exe upgrade demo-app ./demo-chart```  
+```helm upgrade demo-app ./demo-chart```  
 Helm history  
-```helm.exe history demo-app```  
+```helm history demo-app```  
 Helm rollbak  
-```helm.exe rollback demo-app "id from history"```  
+```helm rollback demo-app "id from history"```  
 Helm deploy to dev  
-```helm.exe upgrade --install demo-app ./demo-chart -f ./demo-chart/values_dev.yaml -n app --create-namespace --dry-run```  
+```helm upgrade --install demo-app ./demo-chart -f ./demo-chart/values_dev.yaml -n app --create-namespace --dry-run```  
 
 Enable all routes prefixed with /api in chartmuseum/values.yaml    
 ```DISABLE_API: false```  
-```helm.exe upgrade --install chartmuseum -f chartmuseum/values.yaml```  
+```helm upgrade --install chartmuseum -f chartmuseum/values.yaml```  
  
 Create helm package and push  
 ```helm package .\demo-chart```  
-```curl.exe --data-binary "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts```  
+```curl --data-binary "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts```  
 Add own repo  
 ```helm repo add my-chart http://chartmuseum.158.160.40.175.nip.io```  
-```helm.exe repo update my-chart```  
+```helm repo update my-chart```  
 After add user and pssword to values.yaml  
 ```helm repo add my-chart http://chartmuseum.158.160.40.175.nip.io --username admin --password password```  
-```curl.exe --user admin:password --data-binary "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts```  
-```curl.exe --user admin:password -X DELETE "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts/demo-chart/0.2.0```
+```curl --user admin:password --data-binary "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts```  
+```curl --user admin:password -X DELETE "@demo-chart-0.1.0.tgz" http://chartmuseum.158.160.40.175.nip.io/api/charts/demo-chart/0.2.0```
 
 ### Установка Harbor
 ```helm repo add harbor https://helm.goharbor.io```    
@@ -84,13 +84,21 @@ After add user and pssword to values.yaml
 ### Работа с helm-secrets
 ```pgp -k```  
 
-Зашифровать файл. $ID взять из вывода команды выще. Если ключа нет то создать  
+Зашифровать файл. $ID взять из вывода команды выше. Если ключа нет, то создать: ```gpg --full-generate-key```   
 ```sops -e -i --pgp $ID frontend/secrets.yaml```
 
 Расшифровать  
-```helm secrets dec frontend/secrets.yaml```
+```helm secrets dec frontend/secrets.yaml```  
+Если не работает то:  
+```GPG_TTY=$(tty)```  
+```export GPG_TTY```  
 
 Создать файл frontend/template/secret.yaml   
 
 Загрузка  
 ```helm secrets upgrade --install frontend frontend --namespace hipster-shop -f frontend/values.yaml -f frontend/secrets.yaml```
+
+### Kubecfg
+
+```kubecfg show services.jsonnet``` в папке kubecfg
+```kubecfg update services.jsonnet --namespace hipster-shop```
