@@ -1,0 +1,38 @@
+repositories:
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: chartmuseum
+    url: https://chartmuseum.github.io/charts
+  - name: harbor
+    url: https://helm.goharbor.io
+
+helmBinary: /usr/bin/helm
+
+releases:
+  - name: ingress
+    namespace: nginx-ingress
+    createNamespace: true
+    labels: 
+      app: nginx-ingress
+    wait: true
+    chart: ingress-nginx/ingress-nginx
+
+  - name: cerm-manager
+    namespace: cerm-manager
+    createNamespace: true
+    labels: 
+      app: cerm-manager
+    wait: true
+    chart: jetstack/cert-manager
+
+  - name: harbor
+    namespace: harbor 
+    createNamespace: true
+    labels:
+      app: harbor
+    wait: true
+    chart: harbor/harbor
+    values:
+      - harbor\values.yaml
