@@ -5,7 +5,8 @@ metadata:
   labels:
     pv-usage: {{ name }}
 spec:
-  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  persistentVolumeReclaimPolicy: Delete
   accessModes:
     - ReadWriteOnce
   capacity:
