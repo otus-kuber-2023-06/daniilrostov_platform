@@ -19,3 +19,7 @@
 # Выполнено ДЗ №6
 
 Добавлена папка "kubernetes-templating"
+
+# Выполнено ДЗ №7
+
+Добавлена папка "kubernetes-operators"
