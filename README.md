@@ -23,3 +23,7 @@
 # Выполнено ДЗ №7
 
 Добавлена папка "kubernetes-operators"
+
+# Выполнено ДЗ №8
+
+Добавлена папка "kubernetes-monitoring"
