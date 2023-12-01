@@ -1,0 +1,34 @@
+---
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: frontend
+  namespace: develop
+spec:
+  provider: istio
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  service:
+    port: 80
+    targetPort: 8080
+    gateways:
+      - gateway
+    hosts:
+      - "*"
+    trafficPolicy:
+    tls:
+    mode: DISABLE
+  analysis:
+    interval: 1m
+    threshold: 10
+    maxWeight: 50
+    stepWeight: 5
+    metrics:
+      - name: request-success-rate
+        threshold: 99
+        interval: 1m
+      - name: request-duration
+        threshold: 500
+        interval: 1m
