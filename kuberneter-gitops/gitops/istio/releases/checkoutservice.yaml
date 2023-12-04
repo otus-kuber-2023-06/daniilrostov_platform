@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: checkoutservice
+  namespace: develop
+  annotations:
+    fluxcd.io/automated: "true"
+    flux.weave.works/tag.chart-image: semver:~v0.0
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: deploy/charts/checkoutservice
+      version: 'x.x.x'
+      sourceRef:
+        kind: GitRepository
+        name: deployrepo
+        namespace: flux-system
+      interval: 1m
+  values:
+    image:
+      repository: daniilrostov/checkoutservice
+      tag: v0.0.1

@@ -27,3 +27,7 @@
 # Выполнено ДЗ №8
 
 Добавлена папка "kubernetes-monitoring"
+
+# Выполнено ДЗ №10
+
+Добавлена папка "kubernetes-gitops"

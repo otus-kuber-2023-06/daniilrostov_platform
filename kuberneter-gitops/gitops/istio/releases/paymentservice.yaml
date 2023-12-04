@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: paymentservice
+  namespace: develop
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: deploy/charts/paymentservice
+      version: 'x.x.x'
+      sourceRef:
+        kind: GitRepository
+        name: deployrepo
+        namespace: flux-system
+      interval: 1m
+  values:
+    image:
+      repository: daniilrostov/paymentservice
+      tag: v0.0.2

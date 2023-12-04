@@ -1,0 +1,73 @@
+stages:
+  - terraform
+  - build_container
+  - test
+  - deploy
+
+before_script:
+  - echo "Before script section"
+
+after_script:
+  - echo "After script section"
+
+terraform_apply:
+  tags:
+    - shell
+  stage: terraform
+  script:
+    - cd ./terraform
+    - cat provider > ~/.terraformrc
+    - terraform init -backend-config="address=https://gitlab.com/api/v4/projects/50800490/terraform/state/infra_state" -backend-config="lock_address=https://gitlab.com/api/v4/projects/50800490/terraform/state/infra_state/lock" -backend-config="unlock_address=https://gitlab.com/api/v4/projects/50800490/terraform/state/infra_state/lock" -backend-config="username=daniilrostov" -backend-config="password=$GITLAB_ACCESS_TOKEN" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
+    - terraform apply -var FOLDER_ID=$TF_VAR_FOLDER_ID -var region=$region -lock=false -auto-approve
+  when: manual
+
+terraform_destroy:
+  tags:
+    - shell
+  stage: terraform
+  script:
+    - cd ./terraform
+    - cat provider > ~/.terraformrc
+    - terraform init -backend-config="address=https://gitlab.com/api/v4/projects/50800490/terraform/state/infra_state" -backend-config="lock_address=https://gitlab.com/api/v4/projects/50800490/terraform/state/infra_state/lock" -backend-config="unlock_address=https://gitlab.com/api/v4/projects/50800490/terraform/state/infra_state/lock" -backend-config="username=daniilrostov" -backend-config="password=$GITLAB_ACCESS_TOKEN" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
+    - terraform destroy -var FOLDER_ID=$TF_VAR_FOLDER_ID -var region=$region -lock=false -auto-approve
+  when: manual
+
+build1:
+  tags:
+    - shell
+  stage: build_container 
+  script:
+    - echo $CI_COMMIT_TAG
+    - echo $CI_COMMIT_MESSAGE
+    - cd ./src/$CI_COMMIT_MESSAGE
+    - echo docker buildx build -t daniilrostov/$CI_COMMIT_MESSAGE:$CI_COMMIT_TAG .
+    - docker build -t daniilrostov/$CI_COMMIT_MESSAGE:$CI_COMMIT_TAG .
+    - echo $DOCKER_PASS | docker login -u daniilrostov --password-stdin
+    - docker push daniilrostov/$CI_COMMIT_MESSAGE:$CI_COMMIT_TAG
+    - docker logout
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^v\d+.\d+.\d+-?.*$/
+
+test1:
+  tags:
+    - shell
+  stage: test
+  script:
+    - echo "Do a test here!"
+
+test2:
+  tags:
+    - shell
+  stage: test
+  script:
+    - echo "Do another parallel test here!!"
+    - echo "For example run a lint test"
+
+deploy1:
+  tags:
+    - shell
+  stage: deploy
+  script:
+    - echo "Do your deploy here"
+  environment: production

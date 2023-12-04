@@ -1,0 +1,5 @@
+image:
+  repository: daniilrostov/loadgenerator
+  tag: v0.0.1
+ingress:
+  host: develop.daniil-rostov.pro
